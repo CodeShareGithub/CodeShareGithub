@@ -1,0 +1,9 @@
+for col_name in var_list + metric_cols + [
+        "Balcon_enrollment", "Flex_enrollment", "SG_enrollment", "RS_enrollment", "Flex_Pay_enrollment",
+        "Balcon_enrollment_per_targeting", "Flex_Loan_enrollment_per_targeting", "SG_enrollment_per_targeting",
+        "RS_enrollment_per_targeting", "Flex_pay_enrollment_per_targeting", "Total_enrollment_per_targeting",
+        "avg_Balcon_ecm_transfer_3M", "avg_Balcon_ecm_durtn_3M", "avg_Balcon_ecm_totl_fee_3M", "avg_Balcon_ecm_weighted_apr_3M",
+        "avg_Flex_transfer_3M", "avg_Flex_durtn_3M", "avg_Flex_totl_fee_3M", "avg_Flex_weighted_apr_3M",
+        "avg_Flex_pay_amt_3M", "avg_Flex_pay_durtn_3M", "avg_Flex_pay_std_fee_3M", "avg_Flex_pay_pln_fee_3M",
+        "avg_Flex_pay_weighted_apr_3M", "avg_sg_promo_sales_3M", "avg_rs_promo_sales_3M"
+    ]
