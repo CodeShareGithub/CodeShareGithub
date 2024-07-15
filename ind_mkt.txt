@@ -1,0 +1,438 @@
+from pyspark.sql import SparkSession
+from pyspark.sql.functions import col
+
+
+# Get change values
+Balcon_Enrollment_Share_Change = res_change1.select('Balcon_Enrollment_Share_Change').first()[0] * 100
+Flex_Loan_Enrollment_Share_Change = res_change1.select('Flex_Loan_Enrollment_Share_Change').first()[0] * 100
+RS_Enrollment_Share_Change = res_change1.select('Rate_Sale_Enrollment_Share_Change').first()[0] * 100
+SG_Enrollment_Share_Change = res_change1.select('Sales_Growth_Enrollment_Share_Change').first()[0] * 100
+Flex_Pay_Enrollment_Share_Change = res_change1.select('Flex_Pay_Enrollment_Share_Change').first()[0] * 100
+
+Balcon_enrollment_Change = res_change1.select('Balcon_enrollment_Change').first()[0] * 100
+Flex_Loan_enrollment_Change = res_change1.select('Flex_Loan_enrollment_Change').first()[0] * 100
+RS_enrollment_Change = res_change1.select('RS_enrollment_Change').first()[0] * 100
+SG_enrollment_Change = res_change1.select('SG_enrollment_Change').first()[0] * 100
+Flex_Pay_enrollment_Change = res_change1.select('Flex_Pay_enrollment_Change').first()[0] * 100
+
+Total_enrollment_per_targeting_Change = res_change1.select('total_enrollment_per_targeting_Change').first()[0] * 100
+Balcon_enrollment_per_targeting_Change = res_change1.select('Balcon_enrollment_per_targeting_Change').first()[0] * 100
+Flex_Loan_enrollment_per_targeting_Change = res_change1.select('Flex_Loan_enrollment_per_targeting_Change').first()[0] * 100
+RS_enrollment_per_targeting_Change = res_change1.select('RS_enrollment_per_targeting_Change').first()[0] * 100
+SG_enrollment_per_targeting_Change = res_change1.select('SG_enrollment_per_targeting_Change').first()[0] * 100
+Flex_Pay_enrollment_per_targeting_Change = res_change1.select('Flex_Pay_enrollment_per_targeting_Change').first()[0] * 100
+
+Total_targeting_Change = res_change1.select('Total_targeting_Change').first()[0] * 100
+Total_enroll_Change = res_change1.select('Total_enrollment_Change').first()[0] * 100
+Total_Enrollment_Share_Change = res_change1.select('Total_Enrollment_Share_Change').first()[0] * 100
+
+Balcon_targeting_Change = res_change1.select('Balcon_targeting_Change').first()[0] * 100
+Flex_targeting_Change = res_change1.select('Flex_targeting_Change').first()[0] * 100
+SG_targeting_Change = res_change1.select('SG_targeting_Change').first()[0] * 100
+RS_targeting_Change = res_change1.select('RS_targeting_Change').first()[0] * 100
+Flex_pay_targeting_Change = res_change1.select('Flex_pay_targeting_Change').first()[0] * 100
+
+avg_Balcon_transfer_balance_Change = res_change1.select('avg_Balcon_ecm_transfer_3M_Change').first()[0] * 100
+avg_Balcon_ecm_durtn_Change = res_change1.select('avg_Balcon_ecm_durtn_3M_Change').first()[0] * 100
+avg_Balcon_ecm_totl_fee_Change = res_change1.select('avg_Balcon_ecm_totl_fee_3M_Change').first()[0] * 100
+avg_Balcon_ecm_weighted_apr_Change = res_change1.select('avg_Balcon_ecm_weighted_apr_3M_Change').first()[0] * 100
+
+avg_Flex_transfer_Change = res_change1.select('avg_Flex_transfer_3M_Change').first()[0] * 100
+avg_Flex_durtn_Change = res_change1.select('avg_Flex_durtn_3M_Change').first()[0] * 100
+avg_Flex_totl_fee_Change = res_change1.select('avg_Flex_totl_fee_3M_Change').first()[0] * 100
+avg_Flex_weighted_apr_Change = res_change1.select('avg_Flex_weighted_apr_3M_Change').first()[0] * 100
+
+avg_Flex_pay_amt_Change = res_change1.select('avg_Flex_pay_amt_3M_Change').first()[0] * 100
+avg_Flex_pay_durtn_Change = res_change1.select('avg_Flex_pay_durtn_3M_Change').first()[0] * 100
+avg_Flex_pay_std_fee_Change = res_change1.select('avg_Flex_pay_std_fee_3M_Change').first()[0] * 100
+avg_Flex_pay_pln_fee_Change = res_change1.select('avg_Flex_pay_pln_fee_3M_Change').first()[0] * 100
+avg_Flex_pay_weighted_apr_3M_Change = res_change1.select('avg_Flex_pay_weighted_apr_3M_Change').first()[0] * 100
+
+avg_SG_Promo_Sales_Change = res_change1.select('avg_sg_promo_sales_3M_Change').first()[0] * 100
+avg_RS_Promo_Sales_Change = res_change1.select('avg_rs_promo_sales_3M_Change').first()[0] * 100
+
+sum_Balcon_transfer_balance_Change = res_change1.select('sum_Balcon_ecm_transfer_3M_Change').first()[0] * 100
+sum_Balcon_ecm_durtn_Change = res_change1.select('sum_Balcon_ecm_durtn_3M_Change').first()[0] * 100
+sum_Balcon_ecm_totl_fee_Change = res_change1.select('sum_Balcon_ecm_totl_fee_3M_Change').first()[0] * 100
+sum_Balcon_ecm_weighted_apr_Change = res_change1.select('sum_Balcon_ecm_weighted_apr_3M_Change').first()[0] * 100
+
+sum_Flex_transfer_Change = res_change1.select('sum_Flex_transfer_3M_Change').first()[0] * 100
+sum_Flex_durtn_Change = res_change1.select('sum_Flex_durtn_3M_Change').first()[0] * 100
+sum_Flex_totl_fee_Change = res_change1.select('sum_Flex_totl_fee_3M_Change').first()[0] * 100
+sum_Flex_weighted_apr_Change = res_change1.select('sum_Flex_weighted_apr_3M_Change').first()[0] * 100
+
+sum_Flex_pay_amt_Change = res_change1.select('sum_Flex_pay_amt_3M_Change').first()[0] * 100
+sum_Flex_pay_durtn_Change = res_change1.select('sum_Flex_pay_durtn_3M_Change').first()[0] * 100
+sum_Flex_pay_std_fee_Change = res_change1.select('sum_Flex_pay_std_fee_3M_Change').first()[0] * 100
+sum_Flex_pay_pln_fee_Change = res_change1.select('sum_Flex_pay_pln_fee_3M_Change').first()[0] * 100
+sum_Flex_pay_weighted_apr_3M_Change = res_change1.select('sum_Flex_pay_weighted_apr_3M_Change').first()[0] * 100
+
+sum_SG_Promo_Sales_Change = res_change1.select('sum_sg_promo_sales_3M_Change').first()[0] * 100
+sum_RS_Promo_Sales_Change = res_change1.select('sum_rs_promo_sales_3M_Change').first()[0] * 100
+
+# Get previous snapshot values
+Balcon_Enrollment_Share_prev = res_prev1.select('Balcon_Enrollment_Share').first()[0]
+Flex_Loan_Enrollment_Share_prev = res_prev1.select('Flex_Loan_Enrollment_Share').first()[0]
+RS_Enrollment_Share_prev = res_prev1.select('Rate_Sale_Enrollment_Share').first()[0]
+SG_Enrollment_Share_prev = res_prev1.select('Sales_Growth_Enrollment_Share').first()[0]
+Flex_Pay_Enrollment_Share_prev = res_prev1.select('Flex_Pay_Enrollment_Share').first()[0]
+
+Balcon_enroll_prev = res_prev1.select('Balcon_enrollment').first()[0]
+Flex_loan_enroll_prev = res_prev1.select('Flex_Loan_enrollment').first()[0]
+RS_enroll_prev = res_prev1.select('RS_enrollment').first()[0]
+SG_enroll_prev = res_prev1.select('SG_enrollment').first()[0]
+Flex_Pay_enroll_prev = res_prev1.select('Flex_Pay_enrollment').first()[0]
+
+Total_enrollment_per_targeting_prev = res_prev1.select('Total_enrollment_per_targeting').first()[0]
+Balcon_enrollment_per_targeting_prev = res_prev1.select('Balcon_enrollment_per_targeting').first()[0]
+Flex_Loan_enrollment_per_targeting_prev = res_prev1.select('Flex_Loan_enrollment_per_targeting').first()[0]
+RS_enrollment_per_targeting_prev = res_prev1.select('RS_enrollment_per_targeting').first()[0]
+SG_enrollment_per_targeting_prev = res_prev1.select('SG_enrollment_per_targeting').first()[0]
+Flex_Pay_enrollment_per_targeting_prev = res_prev1.select('Flex_Pay_enrollment_per_targeting').first()[0]
+
+Total_targeting_prev = res_prev1.select('Total_targeting').first()[0]
+Total_enroll_prev = res_prev1.select('Total_enrollment').first()[0]
+Total_Enrollment_Share_prev = res_prev1.select('Total_Enrollment_Share').first()[0]
+
+Balcon_targeting_prev = res_prev1.select('Balcon_targeting').first()[0]
+Flex_targeting_prev = res_prev1.select('Flex_targeting').first()[0]
+SG_targeting_prev = res_prev1.select('SG_targeting').first()[0]
+RS_targeting_prev = res_prev1.select('RS_targeting').first()[0]
+Flex_pay_targeting_prev = res_prev1.select('Flex_pay_targeting').first()[0]
+
+avg_Balcon_transfer_balance_prev = res_prev1.select('avg_Balcon_ecm_transfer_3M').first()[0]
+avg_Balcon_ecm_durtn_prev = res_prev1.select('avg_Balcon_ecm_durtn_3M').first()[0]
+avg_Balcon_ecm_totl_fee_prev = res_prev1.select('avg_Balcon_ecm_totl_fee_3M').first()[0]
+avg_Balcon_ecm_weighted_apr_prev = res_prev1.select('avg_Balcon_ecm_weighted_apr_3M').first()[0]
+
+avg_Flex_transfer_prev = res_prev1.select('avg_Flex_transfer_3M').first()[0]
+avg_Flex_durtn_prev = res_prev1.select('avg_Flex_durtn_3M').first()[0]
+avg_Flex_totl_fee_prev = res_prev1.select('avg_Flex_totl_fee_3M').first()[0]
+avg_Flex_weighted_apr_prev = res_prev1.select('avg_Flex_weighted_apr_3M').first()[0]
+
+avg_Flex_pay_amt_prev = res_prev1.select('avg_Flex_pay_amt_3M').first()[0]
+avg_Flex_pay_durtn_prev = res_prev1.select('avg_Flex_pay_durtn_3M').first()[0]
+avg_Flex_pay_std_fee_prev = res_prev1.select('avg_Flex_pay_std_fee_3M').first()[0]
+avg_Flex_pay_pln_fee_prev = res_prev1.select('avg_Flex_pay_pln_fee_3M').first()[0]
+avg_Flex_pay_weighted_apr_3M_prev = res_prev1.select('avg_Flex_pay_weighted_apr_3M').first()[0]
+
+avg_SG_Promo_Sales_prev = res_prev1.select('avg_sg_promo_sales_3M').first()[0]
+avg_RS_Promo_Sales_prev = res_prev1.select('avg_rs_promo_sales_3M').first()[0]
+
+sum_Balcon_transfer_balance_prev = res_prev1.select('sum_Balcon_ecm_transfer_3M').first()[0]
+sum_Balcon_ecm_durtn_prev = res_prev1.select('sum_Balcon_ecm_durtn_3M').first()[0]
+sum_Balcon_ecm_totl_fee_prev = res_prev1.select('sum_Balcon_ecm_totl_fee_3M').first()[0]
+sum_Balcon_ecm_weighted_apr_prev = res_prev1.select('sum_Balcon_ecm_weighted_apr_3M').first()[0]
+
+sum_Flex_transfer_prev = res_prev1.select('sum_Flex_transfer_3M').first()[0]
+sum_Flex_durtn_prev = res_prev1.select('sum_Flex_durtn_3M').first()[0]
+sum_Flex_totl_fee_prev = res_prev1.select('sum_Flex_totl_fee_3M').first()[0]
+sum_Flex_weighted_apr_prev = res_prev1.select('sum_Flex_weighted_apr_3M').first()[0]
+
+sum_Flex_pay_amt_prev = res_prev1.select('sum_Flex_pay_amt_3M').first()[0]
+sum_Flex_pay_durtn_prev = res_prev1.select('sum_Flex_pay_durtn_3M').first()[0]
+sum_Flex_pay_std_fee_prev = res_prev1.select('sum_Flex_pay_std_fee_3M').first()[0]
+sum_Flex_pay_pln_fee_prev = res_prev1.select('sum_Flex_pay_pln_fee_3M').first()[0]
+sum_Flex_pay_weighted_apr_3M_prev = res_prev1.select('sum_Flex_pay_weighted_apr_3M').first()[0]
+
+sum_SG_Promo_Sales_prev = res_prev1.select("sum_sg_promo_sales_3M").first()[0]
+sum_RS_Promo_Sales_prev = res_prev1.select("sum_rs_promo_sales_3M").first()[0]
+
+sum_Balcon_resp_3M_ind_prev = res_prev1.select("sum_Balcon_resp_3M_ind").first()[0]
+sum_Flex_resp_3M_ind_prev = res_prev1.select("sum_Flex_resp_3M_ind").first()[0]
+sum_SG_Resp_3M_ind_prev = res_prev1.select("sum_SG_Resp_3M_ind").first()[0]
+sum_RS_Resp_3M_ind_prev = res_prev1.select("sum_RS_Resp_3M_ind").first()[0]
+sum_Flex_pay_resp_3M_ind_prev = res_prev1.select("sum_Flex_pay_resp_3M_ind").first()[0]
+
+# Get current snapshot values
+Balcon_Enrollment_Share_curr = res_curr1.select('Balcon_Enrollment_Share').first()[0]
+Flex_Loan_Enrollment_Share_curr = res_curr1.select('Flex_Loan_Enrollment_Share').first()[0]
+RS_Enrollment_Share_curr = res_curr1.select('Rate_Sale_Enrollment_Share').first()[0]
+SG_Enrollment_Share_curr = res_curr1.select('Sales_Growth_Enrollment_Share').first()[0]
+Flex_Pay_Enrollment_Share_curr = res_curr1.select('Flex_Pay_Enrollment_Share').first()[0]
+
+Balcon_enroll_curr = res_curr1.select("Balcon_enrollment").first()[0]
+Flex_loan_enroll_curr = res_curr1.select("Flex_Loan_enrollment").first()[0]
+RS_enroll_curr = res_curr1.select("RS_enrollment").first()[0]
+SG_enroll_curr = res_curr1.select("SG_enrollment").first()[0]
+Flex_Pay_enroll_curr = res_curr1.select("Flex_Pay_enrollment").first()[0]
+
+Total_enrollment_per_targeting_curr = res_curr1.select("Total_enrollment_per_targeting").first()[0]
+Balcon_enrollment_per_targeting_curr = res_curr1.select("Balcon_enrollment_per_targeting").first()[0]
+Flex_Loan_enrollment_per_targeting_curr = res_curr1.select("Flex_Loan_enrollment_per_targeting").first()[0]
+RS_enrollment_per_targeting_curr = res_curr1.select("RS_enrollment_per_targeting").first()[0]
+SG_enrollment_per_targeting_curr = res_curr1.select("SG_enrollment_per_targeting").first()[0]
+Flex_Pay_enrollment_per_targeting_curr = res_curr1.select("Flex_Pay_enrollment_per_targeting").first()[0]
+
+Total_targeting_curr = res_curr1.select("total_targeting").first()[0]
+Total_enroll_curr = res_curr1.select("Total_enrollment").first()[0]
+Total_Enrollment_Share_curr = res_curr1.select("Total_Enrollment_Share").first()[0]
+
+Balcon_targeting_curr = res_curr1.select("Balcon_targeting").first()[0]
+Flex_targeting_curr = res_curr1.select("Flex_targeting").first()[0]
+SG_targeting_curr = res_curr1.select("SG_targeting").first()[0]
+RS_targeting_curr = res_curr1.select("RS_targeting").first()[0]
+Flex_pay_targeting_curr = res_curr1.select("Flex_pay_targeting").first()[0]
+
+avg_Balcon_transfer_balance_curr = res_curr1.select("avg_Balcon_ecm_transfer_3M").first()[0]
+avg_Balcon_ecm_durtn_curr = res_curr1.select("avg_Balcon_ecm_durtn_3M").first()[0]
+avg_Balcon_ecm_totl_fee_curr = res_curr1.select("avg_Balcon_ecm_totl_fee_3M").first()[0]
+avg_Balcon_ecm_weighted_apr_curr = res_curr1.select("avg_Balcon_ecm_weighted_apr_3M").first()[0]
+
+avg_Flex_transfer_curr = res_curr1.select('avg_Flex_transfer_3M').first()[0]
+avg_Flex_durtn_curr = res_curr1.select('avg_Flex_durtn_3M').first()[0]
+avg_Flex_totl_fee_curr = res_curr1.select('avg_Flex_totl_fee_3M').first()[0]
+avg_Flex_weighted_apr_curr = res_curr1.select('avg_Flex_weighted_apr_3M').first()[0]
+
+avg_Flex_pay_amt_curr = res_curr1.select('avg_Flex_pay_amt_3M').first()[0]
+avg_Flex_pay_durtn_curr = res_curr1.select('avg_Flex_pay_durtn_3M').first()[0]
+avg_Flex_pay_std_fee_curr = res_curr1.select('avg_Flex_pay_std_fee_3M').first()[0]
+avg_Flex_pay_pln_fee_curr = res_curr1.select('avg_Flex_pay_pln_fee_3M').first()[0]
+avg_Flex_pay_weighted_apr_3M_curr = res_curr1.select('avg_Flex_pay_weighted_apr_3M').first()[0]
+
+avg_SG_Promo_Sales_curr = res_curr1.select('avg_sg_promo_sales_3M').first()[0]
+avg_RS_Promo_Sales_curr = res_curr1.select('avg_rs_promo_sales_3M').first()[0]
+
+sum_Balcon_transfer_balance_curr = res_curr1.select('sum_Balcon_ecm_transfer_3M').first()[0]
+sum_Balcon_ecm_durtn_curr = res_curr1.select('sum_Balcon_ecm_durtn_3M').first()[0]
+sum_Balcon_ecm_totl_fee_curr = res_curr1.select('sum_Balcon_ecm_totl_fee_3M').first()[0]
+sum_Balcon_ecm_weighted_apr_curr = res_curr1.select('sum_Balcon_ecm_weighted_apr_3M').first()[0]
+
+sum_Flex_transfer_curr = res_curr1.select('sum_Flex_transfer_3M').first()[0]
+sum_Flex_durtn_curr = res_curr1.select('sum_Flex_durtn_3M').first()[0]
+sum_Flex_totl_fee_curr = res_curr1.select('sum_Flex_totl_fee_3M').first()[0]
+sum_Flex_weighted_apr_curr = res_curr1.select('sum_Flex_weighted_apr_3M').first()[0]
+
+sum_Flex_pay_amt_curr = res_curr1.select('sum_Flex_pay_amt_3M').first()[0]
+sum_Flex_pay_durtn_curr = res_curr1.select('sum_Flex_pay_durtn_3M').first()[0]
+sum_Flex_pay_std_fee_curr = res_curr1.select('sum_Flex_pay_std_fee_3M').first()[0]
+sum_Flex_pay_pln_fee_curr = res_curr1.select('sum_Flex_pay_pln_fee_3M').first()[0]
+sum_Flex_pay_weighted_apr_3M_curr = res_curr1.select('sum_Flex_pay_weighted_apr_3M').first()[0]
+
+sum_SG_Promo_Sales_curr = res_curr1.select("sum_sg_promo_sales_3M").first()[0]
+sum_RS_Promo_Sales_curr = res_curr1.select("sum_rs_promo_sales_3M").first()[0]
+
+sum_Balcon_resp_3M_ind_curr = res_curr1.select("sum_Balcon_resp_3M_ind").first()[0]
+sum_Flex_resp_3M_ind_curr = res_curr1.select("sum_Flex_resp_3M_ind").first()[0]
+sum_SG_Resp_3M_ind_curr = res_curr1.select("sum_SG_Resp_3M_ind").first()[0]
+sum_RS_Resp_3M_ind_curr = res_curr1.select("sum_RS_Resp_3M_ind").first()[0]
+sum_Flex_pay_resp_3M_ind_curr = res_curr1.select("sum_Flex_pay_resp_3M_ind").first()[0]
+
+# Displaying the values (optional)
+print("Change DataFrame values:")
+print(f"Balcon_Enrollment_Share_Change: {Balcon_Enrollment_Share_Change}")
+print(f"Flex_Loan_Enrollment_Share_Change: {Flex_Loan_Enrollment_Share_Change}")
+print(f"RS_Enrollment_Share_Change: {RS_Enrollment_Share_Change}")
+print(f"SG_Enrollment_Share_Change: {SG_Enrollment_Share_Change}")
+print(f"Flex_Pay_Enrollment_Share_Change: {Flex_Pay_Enrollment_Share_Change}")
+
+print(f"Balcon_enrollment_Change: {Balcon_enrollment_Change}")
+print(f"Flex_Loan_enrollment_Change: {Flex_Loan_enrollment_Change}")
+print(f"RS_enrollment_Change: {RS_enrollment_Change}")
+print(f"SG_enrollment_Change: {SG_enrollment_Change}")
+print(f"Flex_Pay_enrollment_Change: {Flex_Pay_enrollment_Change}")
+
+print(f"Total_enrollment_per_targeting_Change: {Total_enrollment_per_targeting_Change}")
+print(f"Balcon_enrollment_per_targeting_Change: {Balcon_enrollment_per_targeting_Change}")
+print(f"Flex_Loan_enrollment_per_targeting_Change: {Flex_Loan_enrollment_per_targeting_Change}")
+print(f"RS_enrollment_per_targeting_Change: {RS_enrollment_per_targeting_Change}")
+print(f"SG_enrollment_per_targeting_Change: {SG_enrollment_per_targeting_Change}")
+print(f"Flex_Pay_enrollment_per_targeting_Change: {Flex_Pay_enrollment_per_targeting_Change}")
+
+print(f"Total_targeting_Change: {Total_targeting_Change}")
+print(f"Total_enroll_Change: {Total_enroll_Change}")
+print(f"Total_Enrollment_Share_Change: {Total_Enrollment_Share_Change}")
+
+print(f"Balcon_targeting_Change: {Balcon_targeting_Change}")
+print(f"Flex_targeting_Change: {Flex_targeting_Change}")
+print(f"SG_targeting_Change: {SG_targeting_Change}")
+print(f"RS_targeting_Change: {RS_targeting_Change}")
+print(f"Flex_pay_targeting_Change: {Flex_pay_targeting_Change}")
+
+print(f"avg_Balcon_transfer_balance_Change: {avg_Balcon_transfer_balance_Change}")
+print(f"avg_Balcon_ecm_durtn_Change: {avg_Balcon_ecm_durtn_Change}")
+print(f"avg_Balcon_ecm_totl_fee_Change: {avg_Balcon_ecm_totl_fee_Change}")
+print(f"avg_Balcon_ecm_weighted_apr_Change: {avg_Balcon_ecm_weighted_apr_Change}")
+
+print(f"avg_Flex_transfer_Change: {avg_Flex_transfer_Change}")
+print(f"avg_Flex_durtn_Change: {avg_Flex_durtn_Change}")
+print(f"avg_Flex_totl_fee_Change: {avg_Flex_totl_fee_Change}")
+print(f"avg_Flex_weighted_apr_Change: {avg_Flex_weighted_apr_Change}")
+
+print(f"avg_Flex_pay_amt_Change: {avg_Flex_pay_amt_Change}")
+print(f"avg_Flex_pay_durtn_Change: {avg_Flex_pay_durtn_Change}")
+print(f"avg_Flex_pay_std_fee_Change: {avg_Flex_pay_std_fee_Change}")
+print(f"avg_Flex_pay_pln_fee_Change: {avg_Flex_pay_pln_fee_Change}")
+print(f"avg_Flex_pay_weighted_apr_3M_Change: {avg_Flex_pay_weighted_apr_3M_Change}")
+
+print(f"avg_SG_Promo_Sales_Change: {avg_SG_Promo_Sales_Change}")
+print(f"avg_RS_Promo_Sales_Change: {avg_RS_Promo_Sales_Change}")
+
+print(f"sum_Balcon_transfer_balance_Change: {sum_Balcon_transfer_balance_Change}")
+print(f"sum_Balcon_ecm_durtn_Change: {sum_Balcon_ecm_durtn_Change}")
+print(f"sum_Balcon_ecm_totl_fee_Change: {sum_Balcon_ecm_totl_fee_Change}")
+print(f"sum_Balcon_ecm_weighted_apr_Change: {sum_Balcon_ecm_weighted_apr_Change}")
+
+print(f"sum_Flex_transfer_Change: {sum_Flex_transfer_Change}")
+print(f"sum_Flex_durtn_Change: {sum_Flex_durtn_Change}")
+print(f"sum_Flex_totl_fee_Change: {sum_Flex_totl_fee_Change}")
+print(f"sum_Flex_weighted_apr_Change: {sum_Flex_weighted_apr_Change}")
+
+print(f"sum_Flex_pay_amt_Change: {sum_Flex_pay_amt_Change}")
+print(f"sum_Flex_pay_durtn_Change: {sum_Flex_pay_durtn_Change}")
+print(f"sum_Flex_pay_std_fee_Change: {sum_Flex_pay_std_fee_Change}")
+print(f"sum_Flex_pay_pln_fee_Change: {sum_Flex_pay_pln_fee_Change}")
+print(f"sum_Flex_pay_weighted_apr_3M_Change: {sum_Flex_pay_weighted_apr_3M_Change}")
+
+print(f"sum_SG_Promo_Sales_Change: {sum_SG_Promo_Sales_Change}")
+print(f"sum_RS_Promo_Sales_Change: {sum_RS_Promo_Sales_Change}")
+
+# Repeat similar steps for the previous and current snapshots
+print("Previous snapshot values:")
+print(f"Balcon_Enrollment_Share_prev: {Balcon_Enrollment_Share_prev}")
+print(f"Flex_Loan_Enrollment_Share_prev: {Flex_Loan_Enrollment_Share_prev}")
+print(f"RS_Enrollment_Share_prev: {RS_Enrollment_Share_prev}")
+print(f"SG_Enrollment_Share_prev: {SG_Enrollment_Share_prev}")
+print(f"Flex_Pay_Enrollment_Share_prev: {Flex_Pay_Enrollment_Share_prev}")
+
+print(f"Balcon_enroll_prev: {Balcon_enroll_prev}")
+print(f"Flex_loan_enroll_prev: {Flex_loan_enroll_prev}")
+print(f"RS_enroll_prev: {RS_enroll_prev}")
+print(f"SG_enroll_prev: {SG_enroll_prev}")
+print(f"Flex_Pay_enroll_prev: {Flex_Pay_enroll_prev}")
+
+print(f"Total_enrollment_per_targeting_prev: {Total_enrollment_per_targeting_prev}")
+print(f"Balcon_enrollment_per_targeting_prev: {Balcon_enrollment_per_targeting_prev}")
+print(f"Flex_Loan_enrollment_per_targeting_prev: {Flex_Loan_enrollment_per_targeting_prev}")
+print(f"RS_enrollment_per_targeting_prev: {RS_enrollment_per_targeting_prev}")
+print(f"SG_enrollment_per_targeting_prev: {SG_enrollment_per_targeting_prev}")
+print(f"Flex_Pay_enrollment_per_targeting_prev: {Flex_Pay_enrollment_per_targeting_prev}")
+
+print(f"Total_targeting_prev: {Total_targeting_prev}")
+print(f"Total_enroll_prev: {Total_enroll_prev}")
+print(f"Total_Enrollment_Share_prev: {Total_Enrollment_Share_prev}")
+
+print(f"Balcon_targeting_prev: {Balcon_targeting_prev}")
+print(f"Flex_targeting_prev: {Flex_targeting_prev}")
+print(f"SG_targeting_prev: {SG_targeting_prev}")
+print(f"RS_targeting_prev: {RS_targeting_prev}")
+print(f"Flex_pay_targeting_prev: {Flex_pay_targeting_prev}")
+
+print(f"avg_Balcon_transfer_balance_prev: {avg_Balcon_transfer_balance_prev}")
+print(f"avg_Balcon_ecm_durtn_prev: {avg_Balcon_ecm_durtn_prev}")
+print(f"avg_Balcon_ecm_totl_fee_prev: {avg_Balcon_ecm_totl_fee_prev}")
+print(f"avg_Balcon_ecm_weighted_apr_prev: {avg_Balcon_ecm_weighted_apr_prev}")
+
+print(f"avg_Flex_transfer_prev: {avg_Flex_transfer_prev}")
+print(f"avg_Flex_durtn_prev: {avg_Flex_durtn_prev}")
+print(f"avg_Flex_totl_fee_prev: {avg_Flex_totl_fee_prev}")
+print(f"avg_Flex_weighted_apr_prev: {avg_Flex_weighted_apr_prev}")
+
+print(f"avg_Flex_pay_amt_prev: {avg_Flex_pay_amt_prev}")
+print(f"avg_Flex_pay_durtn_prev: {avg_Flex_pay_durtn_prev}")
+print(f"avg_Flex_pay_std_fee_prev: {avg_Flex_pay_std_fee_prev}")
+print(f"avg_Flex_pay_pln_fee_prev: {avg_Flex_pay_pln_fee_prev}")
+print(f"avg_Flex_pay_weighted_apr_3M_prev: {avg_Flex_pay_weighted_apr_3M_prev}")
+
+print(f"avg_SG_Promo_Sales_prev: {avg_SG_Promo_Sales_prev}")
+print(f"avg_RS_Promo_Sales_prev: {avg_RS_Promo_Sales_prev}")
+
+print(f"sum_Balcon_transfer_balance_prev: {sum_Balcon_transfer_balance_prev}")
+print(f"sum_Balcon_ecm_durtn_prev: {sum_Balcon_ecm_durtn_prev}")
+print(f"sum_Balcon_ecm_totl_fee_prev: {sum_Balcon_ecm_totl_fee_prev}")
+print(f"sum_Balcon_ecm_weighted_apr_prev: {sum_Balcon_ecm_weighted_apr_prev}")
+
+print(f"sum_Flex_transfer_prev: {sum_Flex_transfer_prev}")
+print(f"sum_Flex_durtn_prev: {sum_Flex_durtn_prev}")
+print(f"sum_Flex_totl_fee_prev: {sum_Flex_totl_fee_prev}")
+print(f"sum_Flex_weighted_apr_prev: {sum_Flex_weighted_apr_prev}")
+
+print(f"sum_Flex_pay_amt_prev: {sum_Flex_pay_amt_prev}")
+print(f"sum_Flex_pay_durtn_prev: {sum_Flex_pay_durtn_prev}")
+print(f"sum_Flex_pay_std_fee_prev: {sum_Flex_pay_std_fee_prev}")
+print(f"sum_Flex_pay_pln_fee_prev: {sum_Flex_pay_pln_fee_prev}")
+print(f"sum_Flex_pay_weighted_apr_3M_prev: {sum_Flex_pay_weighted_apr_3M_prev}")
+
+print(f"sum_SG_Promo_Sales_prev: {sum_SG_Promo_Sales_prev}")
+print(f"sum_RS_Promo_Sales_prev: {sum_RS_Promo_Sales_prev}")
+
+print(f"sum_Balcon_resp_3M_ind_prev: {sum_Balcon_resp_3M_ind_prev}")
+print(f"sum_Flex_resp_3M_ind_prev: {sum_Flex_resp_3M_ind_prev}")
+print(f"sum_SG_Resp_3M_ind_prev: {sum_SG_Resp_3M_ind_prev}")
+print(f"sum_RS_Resp_3M_ind_prev: {sum_RS_Resp_3M_ind_prev}")
+print(f"sum_Flex_pay_resp_3M_ind_prev: {sum_Flex_pay_resp_3M_ind_prev}")
+
+# Repeat similar steps for the current snapshot
+print("Current snapshot values:")
+print(f"Balcon_Enrollment_Share_curr: {Balcon_Enrollment_Share_curr}")
+print(f"Flex_Loan_Enrollment_Share_curr: {Flex_Loan_Enrollment_Share_curr}")
+print(f"RS_Enrollment_Share_curr: {RS_Enrollment_Share_curr}")
+print(f"SG_Enrollment_Share_curr: {SG_Enrollment_Share_curr}")
+print(f"Flex_Pay_Enrollment_Share_curr: {Flex_Pay_Enrollment_Share_curr}")
+
+print(f"Balcon_enroll_curr: {Balcon_enroll_curr}")
+print(f"Flex_loan_enroll_curr: {Flex_loan_enroll_curr}")
+print(f"RS_enroll_curr: {RS_enroll_curr}")
+print(f"SG_enroll_curr: {SG_enroll_curr}")
+print(f"Flex_Pay_enroll_curr: {Flex_Pay_enroll_curr}")
+
+print(f"Total_enrollment_per_targeting_curr: {Total_enrollment_per_targeting_curr}")
+print(f"Balcon_enrollment_per_targeting_curr: {Balcon_enrollment_per_targeting_curr}")
+print(f"Flex_Loan_enrollment_per_targeting_curr: {Flex_Loan_enrollment_per_targeting_curr}")
+print(f"RS_enrollment_per_targeting_curr: {RS_enrollment_per_targeting_curr}")
+print(f"SG_enrollment_per_targeting_curr: {SG_enrollment_per_targeting_curr}")
+print(f"Flex_Pay_enrollment_per_targeting_curr: {Flex_Pay_enrollment_per_targeting_curr}")
+
+print(f"Total_targeting_curr: {Total_targeting_curr}")
+print(f"Total_enroll_curr: {Total_enroll_curr}")
+print(f"Total_Enrollment_Share_curr: {Total_Enrollment_Share_curr}")
+
+print(f"Balcon_targeting_curr: {Balcon_targeting_curr}")
+print(f"Flex_targeting_curr: {Flex_targeting_curr}")
+print(f"SG_targeting_curr: {SG_targeting_curr}")
+print(f"RS_targeting_curr: {RS_targeting_curr}")
+print(f"Flex_pay_targeting_curr: {Flex_pay_targeting_curr}")
+
+print(f"avg_Balcon_transfer_balance_curr: {avg_Balcon_transfer_balance_curr}")
+print(f"avg_Balcon_ecm_durtn_curr: {avg_Balcon_ecm_durtn_curr}")
+print(f"avg_Balcon_ecm_totl_fee_curr: {avg_Balcon_ecm_totl_fee_curr}")
+print(f"avg_Balcon_ecm_weighted_apr_curr: {avg_Balcon_ecm_weighted_apr_curr}")
+
+print(f"avg_Flex_transfer_curr: {avg_Flex_transfer_curr}")
+print(f"avg_Flex_durtn_curr: {avg_Flex_durtn_curr}")
+print(f"avg_Flex_totl_fee_curr: {avg_Flex_totl_fee_curr}")
+print(f"avg_Flex_weighted_apr_curr: {avg_Flex_weighted_apr_curr}")
+
+print(f"avg_Flex_pay_amt_curr: {avg_Flex_pay_amt_curr}")
+print(f"avg_Flex_pay_durtn_curr: {avg_Flex_pay_durtn_curr}")
+print(f"avg_Flex_pay_std_fee_curr: {avg_Flex_pay_std_fee_curr}")
+print(f"avg_Flex_pay_pln_fee_curr: {avg_Flex_pay_pln_fee_curr}")
+print(f"avg_Flex_pay_weighted_apr_3M_curr: {avg_Flex_pay_weighted_apr_3M_curr}")
+
+print(f"avg_SG_Promo_Sales_curr: {avg_SG_Promo_Sales_curr}")
+print(f"avg_RS_Promo_Sales_curr: {avg_RS_Promo_Sales_curr}")
+
+print(f"sum_Balcon_transfer_balance_curr: {sum_Balcon_transfer_balance_curr}")
+print(f"sum_Balcon_ecm_durtn_curr: {sum_Balcon_ecm_durtn_curr}")
+print(f"sum_Balcon_ecm_totl_fee_curr: {sum_Balcon_ecm_totl_fee_curr}")
+print(f"sum_Balcon_ecm_weighted_apr_curr: {sum_Balcon_ecm_weighted_apr_curr}")
+
+print(f"sum_Flex_transfer_curr: {sum_Flex_transfer_curr}")
+print(f"sum_Flex_durtn_curr: {sum_Flex_durtn_curr}")
+print(f"sum_Flex_totl_fee_curr: {sum_Flex_totl_fee_curr}")
+print(f"sum_Flex_weighted_apr_curr: {sum_Flex_weighted_apr_curr}")
+
+print(f"sum_Flex_pay_amt_curr: {sum_Flex_pay_amt_curr}")
+print(f"sum_Flex_pay_durtn_curr: {sum_Flex_pay_durtn_curr}")
+print(f"sum_Flex_pay_std_fee_curr: {sum_Flex_pay_std_fee_curr}")
+print(f"sum_Flex_pay_pln_fee_curr: {sum_Flex_pay_pln_fee_curr}")
+print(f"sum_Flex_pay_weighted_apr_3M_curr: {sum_Flex_pay_weighted_apr_3M_curr}")
+
+print(f"sum_SG_Promo_Sales_curr: {sum_SG_Promo_Sales_curr}")
+print(f"sum_RS_Promo_Sales_curr: {sum_RS_Promo_Sales_curr}")
+
+print(f"sum_Balcon_resp_3M_ind_curr: {sum_Balcon_resp_3M_ind_curr}")
+print(f"sum_Flex_resp_3M_ind_curr: {sum_Flex_resp_3M_ind_curr}")
+print(f"sum_SG_Resp_3M_ind_curr: {sum_SG_Resp_3M_ind_curr}")
+print(f"sum_RS_Resp_3M_ind_curr: {sum_RS_Resp_3M_ind_curr}")
+print(f"sum_Flex_pay_resp_3M_ind_curr: {sum_Flex_pay_resp_3M_ind_curr}")
