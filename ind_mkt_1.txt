@@ -1,0 +1,66 @@
+from pyspark.sql import SparkSession
+from pyspark.sql.functions import col, when, lit
+
+# Define the function
+def verbiage_dict(res_change1, res_curr1, res_prev1, comb_count):
+    insight_dict = {}
+    insight_dict["insight1_Balcon"] = ""
+    insight_dict["insight2_Flex"] = ""
+    insight_dict["insight3_RS"] = ""
+    insight_dict["insight4_SG"] = ""
+    insight_dict["insight5_Flex_pay"] = ""
+
+    change_row = res_change1.collect()[0].asDict()
+    curr_row = res_curr1.collect()[0].asDict()
+    prev_row = res_prev1.collect()[0].asDict()
+
+    if comb_count == len(combination) - 1:
+        insight_dict["insight0_None"] = ""
+        All_condition = combination[-1]
+        if All_condition[0] is None and All_condition[1] is None and All_condition[2] is None:
+            insight_dict["insight0_overall"] = f"""Total Enrollment for last 3 months has {s_fmt(change_row['Total_enroll_Change'])} by {h_fmt(abs(change_row['Total_enroll_Change']))}% (from {round_int(prev_row['Total_enrollment'])} to {round_int(curr_row['Total_enrollment'])}). Customer targeted for Overall for the last 3 months has {s_fmt(change_row['Total_targeting_Change'])} by {h_fmt(abs(change_row['Total_targeting_Change']))}% (from {h_fmt(prev_row['Total_targeting'])} to {h_fmt(curr_row['Total_targeting'])}). Customer enrollment per targeting over the last 3 months has {s_fmt(change_row['Total_enrollment_per_targeting_Change'])} by {h_fmt(abs(change_row['Total_enrollment_per_targeting_Change']))}% (from {h_fmt(prev_row['Total_enrollment_per_targeting']*100)}bps to {h_fmt(curr_row['Total_enrollment_per_targeting']*100)}bps). The Total enrollment share contribution in the last 3 months has {s_fmt(change_row['Total_Enrollment_Share_Change'])} by {h_fmt(abs(change_row['Total_Enrollment_Share_Change']))}% (from {h_fmt(prev_row['Total_Enrollment_Share']*100)}% to {h_fmt(curr_row['Total_Enrollment_Share']*100)}%)."""
+
+    else:
+        if change_row["Balcon_enrollment_Change"] is not None:
+            insight_dict["insight1_Balcon"] = f"""Balcon Enrollment for last 3 months has {s_fmt(change_row['Balcon_enrollment_Change'])} by {h_fmt(abs(change_row['Balcon_enrollment_Change']))}% (from {round_int(prev_row['Balcon_enrollment'])} to {round_int(curr_row['Balcon_enrollment'])})."""
+            if change_row["Balcon_targeting_Change"] is not None:
+                insight_dict["insight1_Balcon"] += f""" Customer targeted for balcon over the last 3 months has {s_fmt(change_row['Balcon_targeting_Change'])} by {h_fmt(abs(change_row['Balcon_targeting_Change']))}% (from {h_fmt(prev_row['Balcon_targeting'])} to {h_fmt(curr_row['Balcon_targeting'])})."""
+            if change_row["Balcon_enrollment_per_targeting_Change"] is not None:
+                insight_dict["insight1_Balcon"] += f""" Customer enrollment per targeting over the last 3 months has {s_fmt(change_row['Balcon_enrollment_per_targeting_Change'])} by {h_fmt(abs(change_row['Balcon_enrollment_per_targeting_Change']))}% (from {h_fmt(prev_row['Balcon_enrollment_per_targeting']*100)}bps to {h_fmt(curr_row['Balcon_enrollment_per_targeting']*100)}bps). The enrollment share contribution of Balcon in the last 3 months has {s_fmt(change_row['Balcon_Enrollment_Share_Change'])} by {h_fmt(abs(change_row['Balcon_Enrollment_Share_Change']))}% (from {h_fmt(prev_row['Balcon_Enrollment_Share']*100)}% to {h_fmt(curr_row['Balcon_Enrollment_Share']*100)}%)."""
+
+        if change_row["Flex_Loan_enrollment_Change"] is not None:
+            insight_dict["insight2_Flex"] = f"""Flex loan Enrollment for last 3 months has {s_fmt(change_row['Flex_Loan_enrollment_Change'])} by {h_fmt(abs(change_row['Flex_Loan_enrollment_Change']))}% (from {round_int(prev_row['Flex_Loan_enrollment'])} to {round_int(curr_row['Flex_Loan_enrollment'])})."""
+            if change_row["Flex_targeting_Change"] is not None:
+                insight_dict["insight2_Flex"] += f""" Customer targeted for Flex Loan over the last 3 months has {s_fmt(change_row['Flex_targeting_Change'])} by {h_fmt(abs(change_row['Flex_targeting_Change']))}% (from {h_fmt(prev_row['Flex_targeting'])} to {h_fmt(curr_row['Flex_targeting'])})."""
+            if change_row["Flex_Loan_enrollment_per_targeting_Change"] is not None:
+                insight_dict["insight2_Flex"] += f""" Customer enrollment per targeting for Flex Loan over the last 3 months has {s_fmt(change_row['Flex_Loan_enrollment_per_targeting_Change'])} by {h_fmt(abs(change_row['Flex_Loan_enrollment_per_targeting_Change']))}% (from {h_fmt(prev_row['Flex_Loan_enrollment_per_targeting']*100)}bps to {h_fmt(curr_row['Flex_Loan_enrollment_per_targeting']*100)}bps). The enrollment share contribution to Flex Loan Enrollment in the last 3 months has {s_fmt(change_row['Flex_Loan_Enrollment_Share_Change'])} by {h_fmt(abs(change_row['Flex_Loan_Enrollment_Share_Change']))}% (from {h_fmt(prev_row['Flex_Loan_Enrollment_Share']*100)}% to {h_fmt(curr_row['Flex_Loan_Enrollment_Share']*100)}%)."""
+
+        if change_row["RS_enrollment_Change"] is not None:
+            insight_dict["insight3_RS"] = f"""Rate Sales Enrollment for last 3 months has {s_fmt(change_row['RS_enrollment_Change'])} by {h_fmt(abs(change_row['RS_enrollment_Change']))}% (from {round_int(prev_row['RS_enrollment'])} to {round_int(curr_row['RS_enrollment'])})."""
+            if change_row["RS_targeting_Change"] is not None:
+                insight_dict["insight3_RS"] += f""" Customer targeted for Rate Sales over the last 3 months has {s_fmt(change_row['RS_targeting_Change'])} by {h_fmt(abs(change_row['RS_targeting_Change']))}% (from {h_fmt(prev_row['RS_targeting'])} to {h_fmt(curr_row['RS_targeting'])})."""
+            if change_row["RS_enrollment_per_targeting_Change"] is not None:
+                insight_dict["insight3_RS"] += f""" Customer enrollment per targeting over the last 3 months has {s_fmt(change_row['RS_enrollment_per_targeting_Change'])} by {h_fmt(abs(change_row['RS_enrollment_per_targeting_Change']))}% (from {h_fmt(prev_row['RS_enrollment_per_targeting']*100)}bps to {h_fmt(curr_row['RS_enrollment_per_targeting']*100)}bps). The enrollment share contribution of Rate Sales Enrollment in the last 3 months has {s_fmt(change_row['RS_Enrollment_Share_Change'])} by {h_fmt(abs(change_row['RS_Enrollment_Share_Change']))}% (from {h_fmt(prev_row['RS_Enrollment_Share']*100)}% to {h_fmt(curr_row['RS_Enrollment_Share']*100)}%)."""
+
+        if change_row["SG_enrollment_Change"] is not None:
+            insight_dict["insight4_SG"] = f"""Sales Growth Enrollment for last 3 months has {s_fmt(change_row['SG_enrollment_Change'])} by {h_fmt(abs(change_row['SG_enrollment_Change']))}% (from {round_int(prev_row['SG_enrollment'])} to {round_int(curr_row['SG_enrollment'])})."""
+            if change_row["SG_targeting_Change"] is not None:
+                insight_dict["insight4_SG"] += f""" Customer targeted for Sales Growth Loan over the last 3 months has {s_fmt(change_row['SG_targeting_Change'])} by {h_fmt(abs(change_row['SG_targeting_Change']))}% (from {h_fmt(prev_row['SG_targeting'])} to {h_fmt(curr_row['SG_targeting'])})."""
+            if change_row["SG_enrollment_per_targeting_Change"] is not None:
+                insight_dict["insight4_SG"] += f""" Customer enrollment per targeting over the last 3 months has {s_fmt(change_row['SG_enrollment_per_targeting_Change'])} by {h_fmt(abs(change_row['SG_enrollment_per_targeting_Change']))}% (from {h_fmt(prev_row['SG_enrollment_per_targeting']*100)}bps to {h_fmt(curr_row['SG_enrollment_per_targeting']*100)}bps). The enrollment share contribution of Sales Growth Enrollment in the last 3 months has {s_fmt(change_row['SG_Enrollment_Share_Change'])} by {h_fmt(abs(change_row['SG_Enrollment_Share_Change']))}% (from {h_fmt(prev_row['SG_Enrollment_Share']*100)}% to {h_fmt(curr_row['SG_Enrollment_Share']*100)}%)."""
+
+        if change_row["Flex_Pay_enrollment_Change"] is not None:
+            insight_dict["insight5_Flex_pay"] = f"""Flex Pay Enrollment for last 3 months has {s_fmt(change_row['Flex_Pay_enrollment_Change'])} by {h_fmt(abs(change_row['Flex_Pay_enrollment_Change']))}% (from {round_int(prev_row['Flex_Pay_enrollment'])} to {round_int(curr_row['Flex_Pay_enrollment'])})."""
+            if change_row["Flex_pay_targeting_Change"] is not None:
+                insight_dict["insight5_Flex_pay"] += f""" Customer targeted for Flex Pay over the last 3 months has {s_fmt(change_row['Flex_pay_targeting_Change'])} by {h_fmt(abs(change_row['Flex_pay_targeting_Change']))}% (from {h_fmt(prev_row['Flex_pay_targeting'])} to {h_fmt(curr_row['Flex_pay_targeting'])})."""
+            if change_row["Flex_Pay_enrollment_per_targeting_Change"] is not None:
+                insight_dict["insight5_Flex_pay"] += f""" Customer enrollment per targeting over the last 3 months has {s_fmt(change_row['Flex_Pay_enrollment_per_targeting_Change'])} by {h_fmt(abs(change_row['Flex_Pay_enrollment_per_targeting_Change']))}% (from {h_fmt(prev_row['Flex_Pay_enrollment_per_targeting']*100)}bps to {h_fmt(curr_row['Flex_Pay_enrollment_per_targeting']*100)}bps). The enrollment share contribution to Flex Pay Enrollment in the last 3 months has {s_fmt(change_row['Flex_Pay_Enrollment_Share_Change'])} by {h_fmt(abs(change_row['Flex_Pay_Enrollment_Share_Change']))}% (from {h_fmt(prev_row['Flex_Pay_Enrollment_Share']*100)}% to {h_fmt(curr_row['Flex_Pay_Enrollment_Share']*100)}%)."""
+
+    return insight_dict
+
+# Call the function
+insight_updated_dict = verbiage_dict(res_change1, res_curr1, res_prev1, comb_count)
+
+# Print the insights
+for key, value in insight_updated_dict.items():
+    print(f"{key}: {value}")
