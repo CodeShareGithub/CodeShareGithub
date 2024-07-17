@@ -1,0 +1,48 @@
+insight_updated_dict = verbiage_dict(res_change1, res_curr1, res_prev1, comb_count)
+            KPI_insight_updated_dict = KPI_verbiage_dict(res_change1, res_curr1, res_prev1, comb_count)
+
+            res_curr1 = res_curr1.withColumn("per_num", lit(pernum)) \
+                .withColumn("level_2_nam", lit(portfolio)) \
+                .withColumn("level_3_nam", lit(product)) \
+                .withColumn("mob_seg", lit(mob_seg))
+
+            if portfolio is None:
+                res_curr1 = res_curr1.withColumn("level_2_nam", lit("All"))
+
+            if product is None:
+                res_curr1 = res_curr1.withColumn("level_3_nam", lit("All"))
+
+            if mob_seg is None:
+                res_curr1 = res_curr1.withColumn("mob_seg", lit("All"))
+
+            res_prev1 = res_prev1.withColumn("per_num_prev", lit(pernum - 12))
+
+            # Create the DataFrame for insights
+            rows = []
+            for k2, v2 in KPI_insight_updated_dict.items():
+                new_row = res_change1.first().asDict().copy()
+                if k2 == "insight0_overall":
+                    new_row["level1"] = insight_updated_dict[k2]
+                    new_row["level2"] = v2
+                    rows.append(new_row)
+
+                for v2_i in v2:
+                    new_row["level1"] = insight_updated_dict[k2]
+                    new_row["level2"] = v2_i
+                    rows.append(new_row)
+
+            if not rows:
+                print(f"**** \n \n {count}, comb_count:{comb_count} ,skip condition:{portfolio}, {product}, {mob_seg} \n \n ****")
+                count += 1
+                continue
+
+            df_insights = spark.createDataFrame(rows, schema=res_change1.schema.add("level1", StringType()).add("level2", StringType()))
+
+            # Join the current, previous and insights DataFrames
+            df_res = res_curr1.crossJoin(res_prev1).crossJoin(df_insights)
+
+            print(f"-----------------------------Combination :{count}, {i}, Per_num: {pernum}, comb_count:{comb_count} --|---")
+            df_summary = df_summary.union(df_res)
+            count += 1
+
+    df_summary.write.format("spark.csv").option("header", "true").save(f"match_marketing_individual_insights_{pernum}_17July_v3.csv")
