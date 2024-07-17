@@ -1,0 +1,80 @@
+def KPI_verbiage_dict(change_row, curr_row, prev_row, comb_count, combination):
+    insight_dict = {}
+
+    if comb_count == len(combination) - 1:
+        All_condition = combination[-1]
+        if (All_condition[0] is None) & (All_condition[1] is None) & (All_condition[2] is None):
+            insight_dict["insight0_overall = ""
+
+    else:
+        insight_dict["insight1_balcon = []
+        insight_dict["insight2_flex = []
+        insight_dict["insight3_rs = []
+        insight_dict["insight4_sg = []
+        insight_dict["insight5_flex_pay = []
+
+        if avg_balcon_transfer_balance_change is not None and (avg_balcon_transfer_balance_change not in [float("-inf"), float("inf")]):
+            insight_dict["insight1_balcon.append(f"""Total balcon Transfer Amount {s_fmt(sum_balcon_transfer_balance_change)}
+            by {h_fmt(__builtin__.abs(sum_balcon_transfer_balance_change))}% (from ${h_fmt(sum_balcon_transfer_balance_prev)} 
+            to ${h_fmt(sum_balcon_transfer_balance_curr)}), while average balcon Transfer Amount has {s_fmt(avg_balcon_transfer_balance_change)}
+            by {h_fmt(__builtin__.abs(avg_balcon_transfer_balance_change))}% (from ${h_fmt(avg_balcon_transfer_balance_prev)} to ${h_fmt(avg_balcon_transfer_balance_curr)})""")
+
+        if avg_balcon_ecm_durtn_change is not None and (avg_balcon_ecm_durtn_change not in [float("-inf"), float("inf")]):
+            insight_dict["insight1_balcon.append(f"""Average balcon duration has {s_fmt(avg_balcon_ecm_durtn_change)}
+            by {h_fmt(__builtin__.abs(avg_balcon_ecm_durtn_change))}% (from {h_fmt(avg_balcon_ecm_durtn_prev)} months to {h_fmt(avg_balcon_ecm_durtn_curr)} months)""")
+
+        if avg_balcon_ecm_totl_fee_change is not None and (avg_balcon_ecm_totl_fee_change not in [float("-inf"), float("inf")]):
+            insight_dict["insight1_balcon.append(f"""Total Fee charged on the loan amount {s_fmt(sum_balcon_ecm_totl_fee_change)}
+            by {h_fmt(__builtin__.abs(sum_balcon_ecm_totl_fee_change))}% (from ${h_fmt(sum_balcon_ecm_totl_fee_prev)} to ${h_fmt(sum_balcon_ecm_totl_fee_curr)}), while average %Fee charged on the loan amount 
+            has {s_fmt(avg_balcon_ecm_totl_fee_change)}
+            by {h_fmt(__builtin__.abs(avg_balcon_ecm_totl_fee_change))}% (from ${h_fmt(avg_balcon_ecm_totl_fee_prev)} to ${h_fmt(avg_balcon_ecm_totl_fee_curr)})""")
+
+        if avg_balcon_ecm_weighted_apr_change is not None and (avg_balcon_ecm_weighted_apr_change not in [float("-inf"), float("inf")]):
+            insight_dict["insight1_balcon.append(f"""Average balcon APR on the disbursed loan has {s_fmt(avg_balcon_ecm_weighted_apr_change)}
+            by {h_fmt(__builtin__.abs(avg_balcon_ecm_weighted_apr_change))}% (from {h_fmt(avg_balcon_ecm_weighted_apr_prev*100)}% to {h_fmt(avg_balcon_ecm_weighted_apr_curr*100)}%)""")
+
+        if avg_flex_transfer_change is not None and (avg_flex_transfer_change not in [float("-inf"), float("inf")]):
+            insight_dict["insight2_flex.append(f"""Total flex loan amount {s_fmt(sum_flex_transfer_change)}
+            by {h_fmt(__builtin__.abs(sum_flex_transfer_change))}% (from ${h_fmt(sum_flex_transfer_prev)} to ${h_fmt(sum_flex_transfer_curr)}), 
+            while average flex loan amount has {s_fmt(avg_flex_transfer_change)} 
+            by {h_fmt(__builtin__.abs(avg_flex_transfer_change))}% (from ${h_fmt(avg_flex_transfer_prev)} to ${h_fmt(avg_flex_transfer_curr)})""")
+
+        if avg_flex_durtn_change is not None and (avg_flex_durtn_change not in [float("-inf"), float("inf")]):
+            insight_dict["insight2_flex.append(f"""Average flex Loan duration has {s_fmt(avg_flex_durtn_change)}
+            by {h_fmt(__builtin__.abs(avg_flex_durtn_change))}% (from {h_fmt(avg_flex_durtn_prev)} months to {h_fmt(avg_flex_durtn_curr)} months)""")
+
+        if avg_flex_weighted_apr_change is not None and (avg_flex_weighted_apr_change not in [float("-inf"), float("inf")]):
+            insight_dict["insight2_flex.append(f"""Average APR on the disbursed loan has {s_fmt(avg_flex_weighted_apr_change)}
+            by {h_fmt(__builtin__.abs(avg_flex_weighted_apr_change))}% (from {h_fmt(avg_flex_weighted_apr_prev)}% to {h_fmt(avg_flex_weighted_apr_curr)}%)""")
+
+        if avg_rs_promo_sales_change is not None and (avg_rs_promo_sales_change not in [float("-inf"), float("inf")]):
+            insight_dict["insight3_rs.append(f"""Total rs promo sales over last 3 months {s_fmt(sum_rs_promo_sales_change)}
+            by {h_fmt(__builtin__.abs(sum_rs_promo_sales_change))}% from ${h_fmt(sum_rs_promo_sales_prev)} to ${h_fmt(sum_rs_promo_sales_curr)}), 
+            while average rs promo sales over last 3 months has {s_fmt(avg_rs_promo_sales_change)} by {h_fmt(__builtin__.abs(avg_rs_promo_sales_change))}% 
+            (from ${h_fmt(avg_rs_promo_sales)} to ${h_fmt(avg_rs_promo_sales)})""")
+
+        if avg_sg_promo_sales_change is not None and (avg_sg_promo_sales_change not in [float("-inf"), float("inf")]):
+            insight_dict["insight4_sg.append(f"""Total sg promo sales over last 3 months {s_fmt(sum_sg_promo_sales_change)}
+            by {h_fmt(__builtin__.abs(sum_sg_promo_sales_change))}% (from ${h_fmt(sum_sg_promo_sales_prev)} to ${h_fmt(sum_sg_promo_sales_curr)}), 
+            while average sg promo sales over last 3 months has {s_fmt(avg_sg_promo_sales_change)}
+            by {h_fmt(__builtin__.abs(avg_sg_promo_sales_change))}% (from ${h_fmt(avg_sg_promo_sales_prev)} to ${h_fmt(avg_sg_promo_sales_curr)})""")
+
+        if avg_flex_pay_amt_change is not None and (avg_flex_pay_amt_change not in [float("-inf"), float("inf")]):
+            insight_dict["insight5_flex_pay.append(f"""Total flex pay loan amount {s_fmt(sum_flex_pay_amt_change)}
+            by {h_fmt(__builtin__.abs(sum_flex_pay_amt_change))}% (from ${h_fmt(sum_flex_pay_amt_prev)}
+            to ${h_fmt(sum_flex_pay_amt_curr)}), while average flex pay loan amount has {s_fmt(avg_flex_pay_amt_change)}
+            by {h_fmt(__builtin__.abs(avg_flex_pay_amt_change))}% (from ${h_fmt(avg_flex_pay_amt_prev)} to ${h_fmt(avg_flex_pay_amt_curr)})""")
+
+        if avg_flex_pay_durtn_change is not None and (avg_flex_pay_durtn_change not in [float("-inf"), float("inf")]):
+            insight_dict["insight5_flex_pay.append(f"""Average flex Pay duration has {s_fmt(avg_flex_pay_durtn_change)}
+            by {h_fmt(__builtin__.abs(avg_flex_pay_durtn_change))}% (from {h_fmt(avg_flex_pay_durtn_prev)} months to {h_fmt(avg_flex_pay_durtn_curr)} months) """)
+
+        if avg_flex_pay_weighted_apr_3m_change is not None and (avg_flex_pay_weighted_apr_3m_change not in [float("-inf"), float("inf")]):
+            insight_dict["insight5_flex_pay.append(f"""Average flex pay APR on the disbursed loan has {s_fmt(avg_flex_pay_weighted_apr_3m_change)}
+            by {h_fmt(__builtin__.abs(avg_flex_pay_weighted_apr_3m_change))}% (from {h_fmt(avg_flex_pay_weighted_apr_3m_prev)}% to {h_fmt(avg_flex_pay_weighted_apr_3m_curr)}%)""")
+
+    return insight_dict
+
+# Generate insights
+KPI_insight_updated_dict = KPI_verbiage_dict(change_row, curr_row, prev_row, 0, combination)
+print(KPI_insight_updated_dict)
