@@ -1,0 +1,228 @@
+def metric_calc(data, per_num, timeline, dictionary):
+    df_2 = data
+    df_change_grouped__ = None
+    df_prev_grouped__2 = None
+    df_curr_grouped__2 = None
+    dictionary_col = []
+
+    for key, value in dictionary.items():
+        if key == "child" or key == "%per_acc_cnr_change" or key == "prev_cnr" or key == "curr_cnr":
+            continue
+        if value is not None:
+            dictionary_col.append(key)
+            df_2 = df_2.filter(col(key) == lit(value))
+
+    df_curr_grouped_ = df_2.select("per_num", *dictionary_col, "num_accts", *var_list)
+    df_curr_grouped_ = df_curr_grouped_.orderBy("per_num", *dictionary_col, ascending=True)
+
+    df_curr_grouped_1 = df_curr_grouped_.filter(col("per_num") == per_num)
+    df_prev_grouped_1 = df_curr_grouped_.filter(col("per_num") == (per_num - timeline))
+
+    sum_cols = [col for col in df_curr_grouped_1.columns if col.startswith("sum") or col in ["num_accts", "IEB"]]
+
+    df_curr_grouped__2 = df_curr_grouped_1.groupBy("per_num", *dictionary_col).agg(
+        {col: "sum" for col in sum_cols}
+    )
+
+    df_prev_grouped__2 = df_prev_grouped_1.groupBy("per_num", *dictionary_col).agg(
+        {col: "sum" for col in sum_cols}
+    )
+
+    df_curr_grouped__ = df_curr_grouped__2
+    df_curr_grouped__ = df_curr_grouped__.withColumn("sum_bseg_int_promo_flex", col("sum_bseg_int_promo_flex"))
+    df_curr_grouped__ = df_curr_grouped__.withColumn("sum_bseg_int_promo_balcon", col("sum_bseg_int_promo_balcon"))
+    df_curr_grouped__ = df_curr_grouped__.withColumn("sum_bseg_int_promo_flex_pay", col("sum_bseg_int_promo_flex_pay"))
+    df_curr_grouped__ = df_curr_grouped__.withColumn("sum_bseg_int_promo_sg", col("sum_bseg_int_promo_sg"))
+    df_curr_grouped__ = df_curr_grouped__.withColumn("sum_bseg_int_promo_rs", col("sum_bseg_int_promo_rs"))
+    df_curr_grouped__ = df_curr_grouped__.withColumn("sum_fee_flex_pay", col("sum_total_fees_flex_pay"))
+    df_curr_grouped__ = df_curr_grouped__.withColumn("sum_fee_balcon", col("sum_total_fees_balcon"))
+    df_curr_grouped__ = df_curr_grouped__.withColumn("sum_fee_flexloan", col("sum_total_fees_flex"))
+    df_curr_grouped__ = df_curr_grouped__.withColumn("sum_rs_interchange", col("sum_assn_interchange_amt_rs"))
+    df_curr_grouped__ = df_curr_grouped__.withColumn("sum_sg_interchange", col("sum_assn_interchange_amt_sg"))
+    df_curr_grouped__ = df_curr_grouped__.withColumn("balcon_enrollment", col("sum_balcon_resp_3m_ind"))
+    df_curr_grouped__ = df_curr_grouped__.withColumn("flex_loan_enrollment", col("sum_flex_resp_3m_ind"))
+    df_curr_grouped__ = df_curr_grouped__.withColumn("sg_enrollment", col("sum_sg_resp_3m_ind"))
+    df_curr_grouped__ = df_curr_grouped__.withColumn("rs_enrollment", col("sum_rs_resp_3m_ind"))
+    df_curr_grouped__ = df_curr_grouped__.withColumn("flex_pay_enrollment", col("sum_flex_pay_resp_3m_ind"))
+    df_curr_grouped__ = df_curr_grouped__.withColumn("overall_enrollment", col("sum_balcon_resp_3m_ind") +
+        col("sum_flex_resp_3m_ind") + col("sum_flex_pay_resp_3m_ind") + col("sum_sg_resp_3m_ind") + col("sum_rs_resp_3m_ind"))
+
+    df_curr_grouped__ = df_curr_grouped__.withColumn("sum_bseg_int_promo_resp", col("sum_bseg_int_promo_resp"))
+    df_curr_grouped__ = df_curr_grouped__.withColumn("sum_assn_interchange_amt_resp", col("sum_assn_interchange_amt_resp"))
+    df_curr_grouped__ = df_curr_grouped__.withColumn("sum_total_fees_resp", col("sum_total_fees_resp"))
+
+    df_curr_grouped__ = df_curr_grouped__.withColumn("sum_cnr_resp_per_acct", col("sum_cnr_resp") /
+        (col("sum_balcon_resp_3m_ind") + col("sum_flex_resp_3m_ind") + col("sum_flex_pay_resp_3m_ind") +
+         col("sum_sg_resp_3m_ind") + col("sum_rs_resp_3m_ind")))
+
+    df_curr_grouped__ = df_curr_grouped__.withColumn("sum_total_fees_resp_per_acct", col("sum_total_fees_resp") /
+        (col("sum_balcon_resp_3m_ind") + col("sum_flex_resp_3m_ind") + col("sum_flex_pay_resp_3m_ind") +
+         col("sum_sg_resp_3m_ind") + col("sum_rs_resp_3m_ind")))
+
+    df_curr_grouped__ = df_curr_grouped__.withColumn("sum_bseg_int_promo_resp_per_acct", col("sum_bseg_int_promo_resp") /
+        (col("sum_balcon_resp_3m_ind") + col("sum_flex_resp_3m_ind") + col("sum_flex_pay_resp_3m_ind") +
+         col("sum_sg_resp_3m_ind") + col("sum_rs_resp_3m_ind")))
+
+    df_curr_grouped__ = df_curr_grouped__.withColumn("sum_assn_interchange_amt_resp_per_acct", col("sum_assn_interchange_amt_resp") /
+        (col("sum_balcon_resp_3m_ind") + col("sum_flex_resp_3m_ind") + col("sum_flex_pay_resp_3m_ind") +
+         col("sum_sg_resp_3m_ind") + col("sum_rs_resp_3m_ind")))
+
+    df_curr_grouped__ = df_curr_grouped__.withColumn("balcon_enrollment_per_targeting", col("sum_balcon_resp_3m_ind") /
+        (col("sum_balcon_dm_3m_ind") + col("sum_balcon_sentcount_3m_ind") + col("sum_balcon_inviews_3m_ind") + col("sum_balcon_impr_3m_ind")))
+
+    df_curr_grouped__ = df_curr_grouped__.withColumn("flex_loan_enrollment_per_targeting", col("sum_flex_resp_3m_ind") /
+        (col("sum_flex_dm_3m_ind") + col("sum_flex_loan_sentcount_3m_ind") + col("sum_flex_loan_inviews_3m_ind") + col("sum_flex_loan_impr_3m_ind")))
+
+    df_curr_grouped__ = df_curr_grouped__.withColumn("sg_enrollment_per_targeting", col("sum_sg_resp_3m_ind") /
+        (col("sum_sg_dm_3m_ind") + col("sum_sg_sentcount_3m_ind") + col("sum_sg_inviews_3m_ind") + col("sum_sg_impr_3m_ind")))
+
+    df_curr_grouped__ = df_curr_grouped__.withColumn("rs_enrollment_per_targeting", col("sum_rs_resp_3m_ind") /
+        (col("sum_rs_dm_3m_ind") + col("sum_rs_sentcount_3m_ind") + col("sum_rs_inviews_3m_ind") + col("sum_rs_impr_3m_ind")))
+
+    df_curr_grouped__ = df_curr_grouped__.withColumn("flex_pay_enrollment_per_targeting", col("sum_flex_pay_resp_3m_ind") /
+        (col("sum_flex_pay_dm_3m_ind") + col("sum_flex_pay_sentcount_3m_ind") + col("sum_flex_pay_inviews_3m_ind") + col("sum_flex_pay_impr_3m_ind")))
+
+    df_prev_grouped__ = df_prev_grouped__2
+    df_prev_grouped__ = df_prev_grouped__.withColumn("sum_bseg_int_promo_flex", col("sum_bseg_int_promo_flex"))
+    df_prev_grouped__ = df_prev_grouped__.withColumn("sum_bseg_int_promo_balcon", col("sum_bseg_int_promo_balcon"))
+    df_prev_grouped__ = df_prev_grouped__.withColumn("sum_bseg_int_promo_flex_pay", col("sum_bseg_int_promo_flex_pay"))
+    df_prev_grouped__ = df_prev_grouped__.withColumn("sum_bseg_int_promo_sg", col("sum_bseg_int_promo_sg"))
+    df_prev_grouped__ = df_prev_grouped__.withColumn("sum_bseg_int_promo_rs", col("sum_bseg_int_promo_rs"))
+    df_prev_grouped__ = df_prev_grouped__.withColumn("sum_fee_flex_pay", col("sum_total_fees_flex_pay"))
+    df_prev_grouped__ = df_prev_grouped__.withColumn("sum_fee_balcon", col("sum_total_fees_balcon"))
+    df_prev_grouped__ = df_prev_grouped__.withColumn("sum_fee_flexloan", col("sum_total_fees_flex"))
+    df_prev_grouped__ = df_prev_grouped__.withColumn("sum_rs_interchange", col("sum_assn_interchange_amt_rs"))
+    df_prev_grouped__ = df_prev_grouped__.withColumn("sum_sg_interchange", col("sum_assn_interchange_amt_sg"))
+    df_prev_grouped__ = df_prev_grouped__.withColumn("balcon_enrollment", col("sum_balcon_resp_3m_ind"))
+    df_prev_grouped__ = df_prev_grouped__.withColumn("flex_loan_enrollment", col("sum_flex_resp_3m_ind"))
+    df_prev_grouped__ = df_prev_grouped__.withColumn("sg_enrollment", col("sum_sg_resp_3m_ind"))
+    df_prev_grouped__ = df_prev_grouped__.withColumn("rs_enrollment", col("sum_rs_resp_3m_ind"))
+    df_prev_grouped__ = df_prev_grouped__.withColumn("flex_pay_enrollment", col("sum_flex_pay_resp_3m_ind"))
+    df_prev_grouped__ = df_prev_grouped__.withColumn("overall_enrollment", col("sum_balcon_resp_3m_ind") +
+        col("sum_flex_resp_3m_ind") + col("sum_flex_pay_resp_3m_ind") + col("sum_sg_resp_3m_ind") + col("sum_rs_resp_3m_ind"))
+
+    df_prev_grouped__ = df_prev_grouped__.withColumn("sum_bseg_int_promo_resp", col("sum_bseg_int_promo_resp"))
+    df_prev_grouped__ = df_prev_grouped__.withColumn("sum_assn_interchange_amt_resp", col("sum_assn_interchange_amt_resp"))
+    df_prev_grouped__ = df_prev_grouped__.withColumn("sum_total_fees_resp", col("sum_total_fees_resp"))
+
+    df_prev_grouped__ = df_prev_grouped__.withColumn("sum_cnr_resp_per_acct", col("sum_cnr_resp") /
+        (col("sum_balcon_resp_3m_ind") + col("sum_flex_resp_3m_ind") + col("sum_flex_pay_resp_3m_ind") +
+         col("sum_sg_resp_3m_ind") + col("sum_rs_resp_3m_ind")))
+
+    df_prev_grouped__ = df_prev_grouped__.withColumn("sum_total_fees_resp_per_acct", col("sum_total_fees_resp") /
+        (col("sum_balcon_resp_3m_ind") + col("sum_flex_resp_3m_ind") + col("sum_flex_pay_resp_3m_ind") +
+         col("sum_sg_resp_3m_ind") + col("sum_rs_resp_3m_ind")))
+
+    df_prev_grouped__ = df_prev_grouped__.withColumn("sum_bseg_int_promo_resp_per_acct", col("sum_bseg_int_promo_resp") /
+        (col("sum_balcon_resp_3m_ind") + col("sum_flex_resp_3m_ind") + col("sum_flex_pay_resp_3m_ind") +
+         col("sum_sg_resp_3m_ind") + col("sum_rs_resp_3m_ind")))
+
+    df_prev_grouped__ = df_prev_grouped__.withColumn("sum_assn_interchange_amt_resp_per_acct", col("sum_assn_interchange_amt_resp") /
+        (col("sum_balcon_resp_3m_ind") + col("sum_flex_resp_3m_ind") + col("sum_flex_pay_resp_3m_ind") +
+         col("sum_sg_resp_3m_ind") + col("sum_rs_resp_3m_ind")))
+
+    df_prev_grouped__ = df_prev_grouped__.withColumn("balcon_enrollment_per_targeting", col("sum_balcon_resp_3m_ind") /
+        (col("sum_balcon_dm_3m_ind") + col("sum_balcon_sentcount_3m_ind") + col("sum_balcon_inviews_3m_ind")))
+
+    df_prev_grouped__ = df_prev_grouped__.withColumn("flex_loan_enrollment_per_targeting", col("sum_flex_resp_3m_ind") /
+        (col("sum_flex_dm_3m_ind") + col("sum_flex_loan_sentcount_3m_ind") + col("sum_flex_loan_inviews_3m_ind")))
+
+    df_prev_grouped__ = df_prev_grouped__.withColumn("sg_enrollment_per_targeting", col("sum_sg_resp_3m_ind") /
+        (col("sum_sg_dm_3m_ind") + col("sum_sg_sentcount_3m_ind") + col("sum_sg_impr_3m_ind")))
+
+    df_prev_grouped__ = df_prev_grouped__.withColumn("rs_enrollment_per_targeting", col("sum_rs_resp_3m_ind") /
+        (col("sum_rs_dm_3m_ind") + col("sum_rs_sentcount_3m_ind") + col("sum_rs_inviews_3m_ind") + col("sum_rs_impr_3m_ind")))
+
+    df_prev_grouped__ = df_prev_grouped__.withColumn("flex_pay_enrollment_per_targeting", col("sum_flex_pay_resp_3m_ind") /
+        (col("sum_flex_pay_dm_3m_ind") + col("sum_flex_pay_sentcount_3m_ind") + col("sum_flex_pay_inviews_3m_ind") + col("sum_flex_pay_impr_3m_ind")))
+
+    if df_curr_grouped_1.filter(col("per_num") == per_num).select("num_accts").count() >= 1:
+        df_curr_grouped__ = df_curr_grouped__.withColumn("balcon_revenue_share", (col("sum_bseg_int_promo_balcon") + col("sum_fee_balcon")) /
+            (col("sum_bseg_int_promo_flex") + col("sum_bseg_int_promo_balcon") + col("sum_bseg_int_promo_flex_pay") +
+             col("sum_bseg_int_promo_sg") + col("sum_bseg_int_promo_rs") + col("sum_total_fees_flex") +
+             col("sum_total_fees_balcon") + col("sum_total_fees_flex_pay") + col("sum_total_fees_flex") +
+             col("sum_assn_interchange_amt_rs") + col("sum_assn_interchange_amt_sg")))
+
+        df_curr_grouped__ = df_curr_grouped__.withColumn("flex_loan_revenue_share", (col("sum_bseg_int_promo_flex") + col("sum_fee_flexloan")) /
+            (col("sum_bseg_int_promo_flex") + col("sum_bseg_int_promo_balcon") + col("sum_bseg_int_promo_flex_pay") +
+             col("sum_bseg_int_promo_sg") + col("sum_bseg_int_promo_rs") + col("sum_total_fees_flex") +
+             col("sum_total_fees_balcon") + col("sum_total_fees_flex_pay") + col("sum_total_fees_flex") +
+             col("sum_assn_interchange_amt_rs") + col("sum_assn_interchange_amt_sg")))
+
+        df_curr_grouped__ = df_curr_grouped__.withColumn("sales_growth_revenue_share", (col("sum_bseg_int_promo_sg") + col("sum_sg_interchange")) /
+            (col("sum_bseg_int_promo_flex") + col("sum_bseg_int_promo_balcon") + col("sum_bseg_int_promo_flex_pay") +
+             col("sum_bseg_int_promo_sg") + col("sum_bseg_int_promo_rs") + col("sum_total_fees_flex") +
+             col("sum_total_fees_balcon") + col("sum_total_fees_flex_pay") + col("sum_total_fees_flex") +
+             col("sum_assn_interchange_amt_rs") + col("sum_assn_interchange_amt_sg")))
+
+        df_curr_grouped__ = df_curr_grouped__.withColumn("rate_sale_revenue_share", (col("sum_bseg_int_promo_rs") + col("sum_rs_interchange")) /
+            (col("sum_bseg_int_promo_rs") + col("sum_bseg_int_promo_flex") + col("sum_bseg_int_promo_balcon") +
+             col("sum_bseg_int_promo_flex_pay") + col("sum_bseg_int_promo_sg") + col("sum_bseg_int_promo_rs") +
+             col("sum_total_fees_flex_pay") + col("sum_total_fees_balcon") + col("sum_total_fees_flex") +
+             col("sum_assn_interchange_amt_rs") + col("sum_assn_interchange_amt_sg")))
+
+        df_curr_grouped__ = df_curr_grouped__.withColumn("flex_pay_revenue_share", (col("sum_bseg_int_promo_flex_pay") + col("sum_fee_flex_pay")) /
+            (col("sum_bseg_int_promo_flex") + col("sum_bseg_int_promo_balcon") + col("sum_bseg_int_promo_flex_pay") +
+             col("sum_bseg_int_promo_sg") + col("sum_bseg_int_promo_rs") + col("sum_total_fees_flex_pay") +
+             col("sum_total_fees_balcon") + col("sum_total_fees_flex") + col("sum_assn_interchange_amt_rs") +
+             col("sum_assn_interchange_amt_sg")))
+
+        df_curr_grouped__ = df_curr_grouped__.withColumn("overall_revenue_share", (col("sum_bseg_int_promo_flex") + col("sum_bseg_int_promo_balcon") +
+            col("sum_bseg_int_promo_flex_pay") + col("sum_bseg_int_promo_rs") + col("sum_bseg_int_promo_sg") +
+            col("sum_total_fees_flex") + col("sum_total_fees_flex_pay") + col("sum_total_fees_balcon") +
+            col("sum_assn_interchange_amt_rs") + col("sum_assn_interchange_amt_sg")) /
+            (col("sum_bseg_int_promo") + col("sum_assn_interchange_amt")))
+
+        df_prev_grouped__ = df_prev_grouped__.withColumn("balcon_revenue_share", (col("sum_bseg_int_promo_balcon") + col("sum_fee_balcon")) /
+            (col("sum_bseg_int_promo_balcon") + col("sum_bseg_int_promo_flex") + col("sum_bseg_int_promo_flex_pay") +
+             col("sum_bseg_int_promo_sg") + col("sum_bseg_int_promo_rs") + col("sum_total_fees_flex_pay") +
+             col("sum_total_fees_balcon") + col("sum_total_fees_flex") + col("sum_assn_interchange_amt_rs") +
+             col("sum_assn_interchange_amt_sg")))
+
+        df_prev_grouped__ = df_prev_grouped__.withColumn("flex_loan_revenue_share", (col("sum_bseg_int_promo_flex") + col("sum_fee_flexloan")) /
+            (col("sum_bseg_int_promo_balcon") + col("sum_bseg_int_promo_sg") + col("sum_bseg_int_promo_flex_pay") +
+             col("sum_bseg_int_promo_rs") + col("sum_total_fees_flex_pay") + col("sum_total_fees_balcon") +
+             col("sum_total_fees_flex") + col("sum_assn_interchange_amt_rs") + col("sum_assn_interchange_amt_sg")))
+
+        df_prev_grouped__ = df_prev_grouped__.withColumn("sales_growth_revenue_share", col("sum_sg_interchange") /
+            (col("sum_bseg_int_promo_sg") + col("sum_bseg_int_promo_flex") + col("sum_bseg_int_promo_flex_pay") +
+             col("sum_bseg_int_promo_rs") + col("sum_total_fees_flex_pay") + col("sum_total_fees_flex") +
+             col("sum_total_fees_balcon") + col("sum_assn_interchange_amt_rs") + col("sum_assn_interchange_amt_sg")))
+
+        df_prev_grouped__ = df_prev_grouped__.withColumn("rate_sale_revenue_share", (col("sum_bseg_int_promo_rs") + col("sum_rs_interchange")) /
+            (col("sum_bseg_int_promo_flex") + col("sum_bseg_int_promo_balcon") + col("sum_bseg_int_promo_flex_pay") +
+             col("sum_bseg_int_promo_sg") + col("sum_bseg_int_promo_rs") + col("sum_total_fees_flex_pay") +
+             col("sum_total_fees_balcon") + col("sum_total_fees_flex") + col("sum_assn_interchange_amt_rs") +
+             col("sum_assn_interchange_amt_sg")))
+
+        df_prev_grouped__ = df_prev_grouped__.withColumn("flex_pay_revenue_share", (col("sum_bseg_int_promo_flex_pay") + col("sum_fee_flex_pay")) /
+            (col("sum_bseg_int_promo_balcon") + col("sum_bseg_int_promo_flex_pay") + col("sum_bseg_int_promo_sg") +
+             col("sum_bseg_int_promo_rs") + col("sum_total_fees_flex_pay") + col("sum_total_fees_balcon") +
+             col("sum_total_fees_flex") + col("sum_assn_interchange_amt_rs") + col("sum_assn_interchange_amt_sg")))
+
+        df_prev_grouped__ = df_prev_grouped__.withColumn("overall_revenue_share", (col("sum_bseg_int_promo_flex") + col("sum_bseg_int_promo_balcon") +
+            col("sum_bseg_int_promo_flex_pay") + col("sum_bseg_int_promo_sg") + col("sum_bseg_int_promo_rs") +
+            col("sum_total_fees_flex_pay") + col("sum_total_fees_balcon") + col("sum_total_fees_flex") +
+            col("sum_assn_interchange_amt_rs") + col("sum_assn_interchange_amt_sg")) /
+            (col("sum_total_fees") + col("sum_bseg_int_promo") + col("sum_assn_interchange_amt")))
+
+        for var in var_list:
+            if df_change_grouped__ is None:
+                df_change_grouped__ = df_curr_grouped__.withColumn(f"{var}_change", (col(f"{var}") - col(f"{var}")) / spark_abs(col(f"{var}")))
+            else:
+                df_change_grouped__ = df_change_grouped__.withColumn(f"{var}_change", (col(f"{var}") - col(f"{var}")) / spark_abs(col(f"{var}")))
+
+        df_change_grouped__ = df_change_grouped__.withColumn("overall_enrollment_change", (col("overall_enrollment") - col("overall_enrollment")) / spark_abs(col("overall_enrollment")))
+        df_change_grouped__ = df_change_grouped__.withColumn("overall_revenue_share_change", (col("overall_revenue_share") - col("overall_revenue_share")) / spark_abs(col("overall_revenue_share")))
+        df_change_grouped__ = df_change_grouped__.withColumn("sum_cnr_resp_per_acct_change", (col("sum_cnr_resp_per_acct") - col("sum_cnr_resp_per_acct")) / spark_abs(col("sum_cnr_resp_per_acct")))
+        df_change_grouped__ = df_change_grouped__.withColumn("sum_total_fees_resp_per_acct_change", (col("sum_total_fees_resp_per_acct") - col("sum_total_fees_resp_per_acct")) / spark_abs(col("sum_total_fees_resp_per_acct")))
+        df_change_grouped__ = df_change_grouped__.withColumn("sum_bseg_int_promo_resp_per_acct_change", (col("sum_bseg_int_promo_resp_per_acct") - col("sum_bseg_int_promo_resp_per_acct")) / spark_abs(col("sum_bseg_int_promo_resp_per_acct")))
+        df_change_grouped__ = df_change_grouped__.withColumn("sum_assn_interchange_amt_resp_per_acct_change", (col("sum_assn_interchange_amt_resp_per_acct") - col("sum_assn_interchange_amt_resp_per_acct")) / spark_abs(col("sum_assn_interchange_amt_resp_per_acct")))
+
+    return df_prev_grouped__, df_curr_grouped__, df_change_grouped__
+
+# Assuming df_marketing is already defined and loaded
+res_prev1, res_curr1, res_change1 = metric_calc(df_marketing, pernum, timeline, dictionary)
+res_prev1.show()
+res_curr1.show()
+res_change1.show()
