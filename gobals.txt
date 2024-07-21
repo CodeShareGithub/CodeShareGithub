@@ -1,0 +1,61 @@
+import json, ast
+
+for row in dictionary:
+    selected_sub_seg = ast.literal_eval(row[0])
+    print(selected_sub_seg)
+
+    res_prev1, res_curr1, res_change1 = metric_calc(df_1, per_num, timeline, selected_sub_seg)
+
+    res_prev1.cache()
+    res_curr1.cache()
+    res_change1.cache()
+
+    if res_curr1.take(1) and res_prev1.take(1):
+        change_row = res_change1.first()
+        prev_row = res_prev1.first()
+        curr_row = res_curr1.first()
+
+        # Define functions to handle None values and multiply by 100
+        def get_value_or_none(row, column):
+            return row[column] * 100 if row[column] is not None else None
+
+        def get_value(row, column):
+            return row[column] if row[column] is not None else None
+
+        # Create unique prefix for the sub-segment
+        sub_seg_prefix = f"sub_seg_{selected_sub_seg}"
+
+        # Generate the change columns with handling None values
+        for col_name in res_change1.columns:
+            globals()[f"{sub_seg_prefix}_change_{col_name}"] = get_value_or_none(change_row, col_name)
+
+        # Generate the previous snapshot columns with handling None values
+        for col_name in res_prev1.columns:
+            globals()[f"{sub_seg_prefix}_prev_{col_name}"] = get_value(prev_row, col_name)
+
+        # Generate the current snapshot columns with handling None values
+        for col_name in res_curr1.columns:
+            globals()[f"{sub_seg_prefix}_curr_{col_name}"] = get_value(curr_row, col_name)
+
+        # Print or store the results for this sub-seg
+        print(f"Change values for {sub_seg_prefix}:")
+        for col_name in res_change1.columns:
+            print(f"{col_name}: {globals()[f'{sub_seg_prefix}_change_{col_name}']}")
+
+        print(f"Previous values for {sub_seg_prefix}:")
+        for col_name in res_prev1.columns:
+            print(f"{col_name}: {globals()[f'{sub_seg_prefix}_prev_{col_name}']}")
+
+        print(f"Current values for {sub_seg_prefix}:")
+        for col_name in res_curr1.columns:
+            print(f"{col_name}: {globals()[f'{sub_seg_prefix}_curr_{col_name}']}")
+
+        print("Number of accounts (prev):", globals().get(f"{sub_seg_prefix}_prev_num_accts_prev"))
+        print("Number of accounts (curr):", globals().get(f"{sub_seg_prefix}_curr_num_accts_curr"))
+        print("Updated dictionary:", insight.updated_dict)
+        print()
+
+
+for key in globals().keys():
+    if key.startswith("sub_seg_"):
+        print(key, globals()[key])
